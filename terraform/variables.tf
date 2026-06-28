@@ -19,7 +19,7 @@ variable "environment" {
 variable "instance_type" {
   description = "EC2 Instance Type"
   type        = string
-  default     = "t3.medium"
+  default     = "c7i-flex.large"
 }
 
 variable "key_pair_name" {
