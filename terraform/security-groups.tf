@@ -63,7 +63,7 @@ resource "aws_security_group" "k3s_sg" {
     from_port   = 6443
     to_port     = 6443
     protocol    = "tcp"
-    cidr_blocks = [var.allowed_ip]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   # Kubernetes API Access from Jenkins

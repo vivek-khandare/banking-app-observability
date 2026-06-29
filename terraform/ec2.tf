@@ -10,8 +10,8 @@ resource "aws_instance" "jenkins" {
   user_data = file("${path.module}/userdata/jenkins-userdata.sh")
 
   root_block_device {
-    volume_size = 20
-    volume_type = "gp3"
+    volume_size           = 20
+    volume_type           = "gp3"
     delete_on_termination = true
   }
 
@@ -35,8 +35,8 @@ resource "aws_instance" "k3s_server" {
   user_data = file("${path.module}/userdata/k3s-server-userdata.sh")
 
   root_block_device {
-    volume_size          = 20
-    volume_type          = "gp3"
+    volume_size           = 20
+    volume_type           = "gp3"
     delete_on_termination = true
   }
 

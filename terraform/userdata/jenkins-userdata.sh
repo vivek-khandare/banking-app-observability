@@ -29,9 +29,9 @@ apt-get install -y \
     apt-transport-https \
     ca-certificates
 
-echo "========== Installing Java 17 =========="
+echo "========== Installing Java 21 =========="
 
-apt-get install -y openjdk-17-jdk
+apt-get install -y fontconfig openjdk-21-jre
 
 java -version
 
@@ -43,18 +43,20 @@ mvn -version
 
 echo "========== Installing Jenkins =========="
 
-wget -O /usr/share/keyrings/jenkins-keyring.asc \
-https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key \
+| tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
 
-echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
-https://pkg.jenkins.io/debian-stable binary/" \
-> /etc/apt/sources.list.d/jenkins.list
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/" \
+| tee /etc/apt/sources.list.d/jenkins.list > /dev/null
 
 apt-get update -y
 
 apt-get install -y jenkins
 
+systemctl daemon-reload
 systemctl enable --now jenkins
+
+sleep 15
 
 systemctl is-active jenkins
 
@@ -84,7 +86,7 @@ apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin do
 
 # Enable Docker
 systemctl enable --now docker
-docker info
+
 
 # Allow Jenkins user to run Docker
 usermod -aG docker jenkins
@@ -113,6 +115,8 @@ echo "========== Configuring Docker Permissions =========="
 # Restart Docker Service
 systemctl restart docker
 
+sleep 10
+
 # Restart Jenkins Service
 systemctl restart jenkins
 
@@ -134,10 +138,10 @@ echo "Kubectl Version:"
 kubectl version --client
 
 echo "Helm Version:"
-helm version
+helm version --short
 
 echo "Jenkins Status:"
-systemctl is-active jenkins
+systemctl status jenkins --no-pager
 
 echo "========== Jenkins User Data Completed Successfully =========="
 date
