@@ -1,0 +1,35 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+terraform.tfvars
+
+# Terraform plan
+*.tfplan
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Maven
+target/
+
+# Java
+*.class
+
+# Jenkins
+.jenkins/
+
+# Kubernetes
+kubeconfig
+
+# Environment files
+.env
