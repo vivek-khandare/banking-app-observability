@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: banking-app
+  namespace: banking
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: banking-app
+
+  template:
+    metadata:
+      labels:
+        app: banking-app
+
+    spec:
+      containers:
+      - name: banking-app
+        image: vivek7296/banking-app:4
+        imagePullPolicy: Always
+
+        ports:
+        - containerPort: 8080
+
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://mysql-service:3306/bankingdb
+
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_USER
+
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_PASSWORD
+
+        - name: SPRING_PROFILES_ACTIVE
+          valueFrom:
+            configMapKeyRef:
+              name: banking-config
+              key: SPRING_PROFILES_ACTIVE
