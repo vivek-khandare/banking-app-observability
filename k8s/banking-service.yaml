@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: banking-service
+  namespace: banking
+
+spec:
+  selector:
+    app: banking-app
+
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30080
+
+  type: NodePort
